@@ -3,8 +3,9 @@ syntax on " Syntax highlighting
 set nocompatible " Disable vi quirk
 set encoding=utf-8 " Unicode baby
 set number " Show line number
-set showbreak=>> " Characters shown on soft wrap
+"set showbreak=>> " Characters shown on soft wrap
 set mouse=a
+set t_Co=256
 call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
 
@@ -19,7 +20,8 @@ set shiftwidth=2
 set softtabstop=2
 set cinoptions=:0,p0,t0
 set cinwords=if,else,while,do,for,switch,case
-
+set gfn=DejaVu\ Sans\ Mono\ 9
+set gfw=DejaVu\ Sans\ Mono\ 9
 " Visual
 set showmatch " Show matching bracket
 set mat=5 " Bracket blinking
@@ -44,6 +46,8 @@ set smartcase
 
 " Search
 set hlsearch " Highlight search result
+set ic " Ignore case
+set is " Incremental search
 
 " History
 set history=1000
@@ -55,16 +59,25 @@ set noswapfile
 
 " Default colors
 if &t_Co >= 256 || has("gui_running")
-   colorscheme mustang
+  syntax enable 
+  set background=dark
+  colorscheme vimbrant "solarized mustang railscasts zenburn 
 endif
 
 if &t_Co > 2 || has("gui_running")
-   " switch syntax highlighting on, when the terminal has colors
-   syntax on
+  " switch syntax highlighting on, when the terminal has colors
+  syntax enable
+  set background=dark
+  colorscheme vimbrant "railscasts zenburn
+  " syntax on
 endif
 
 " Leader
 let mapleader = ","
 nnoremap <leader>f :Ack
 nnoremap <leader>s :%s/\s\+$//<cr>:let @/=''<CR>
-nnoremap <leader>i gg=G 
+nnoremap <leader>i gg=G
+noremap <f5> :bprev<CR> 
+noremap <f8> :bnext<CR> 
+set laststatus=2
+:let g:buftabs_in_statusline=1
