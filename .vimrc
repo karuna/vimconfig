@@ -20,8 +20,9 @@ set shiftwidth=2
 set softtabstop=2
 set cinoptions=:0,p0,t0
 set cinwords=if,else,while,do,for,switch,case
-set gfn=DejaVu\ Sans\ Mono\ 9
-set gfw=DejaVu\ Sans\ Mono\ 9
+set gfn=Cousine\ 9
+set gfw=Cousine\ 9
+"set binary " don't add newline on the end of file
 " Visual
 set showmatch " Show matching bracket
 set mat=5 " Bracket blinking
@@ -81,3 +82,6 @@ noremap <f5> :bprev<CR>
 noremap <f8> :bnext<CR> 
 set laststatus=2
 :let g:buftabs_in_statusline=1
+
+"autocmd VimEnter * RainbowParenthesesToggle
+

@@ -1,8 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =6
-let g:netrw_dirhist_1='/home/karuna/public_html/emulator/src/fceux/debian'
-let g:netrw_dirhist_2='/home/karuna/public_html/emulator/src/jpcsp/debian'
-let g:netrw_dirhist_3='/etc/apt/sources.list.d'
-let g:netrw_dirhist_4='/usr/share/icons/Faenza-Dark'
-let g:netrw_dirhist_5='/home/karuna/Downloads/games/lbreakout2-2.6.3/debian'
-let g:netrw_dirhist_6='/home/karuna/Downloads/vim/vim-7.3.035+hg~8fdc12103333/debian'
