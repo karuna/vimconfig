@@ -132,6 +132,75 @@ if has('gui_running')
     hi WarningMsg      guifg=#FFFFFF guibg=#333333 gui=bold
     hi WildMenu        guifg=#66D9EF guibg=#000000
 
+    " Outlines
+    hi OL1             guifg=#A6E22E
+    hi OL2             guifg=#F92672
+    hi OL3             guifg=#FD971F
+    hi OL4             guifg=#66D9EF
+    hi OL5             guifg=#AE81FF
+    hi OL6             guifg=#E6DB74
+    hi OL7             guifg=#BCA3A3
+    hi OL8             guifg=#F92672
+    hi OL9             guifg=#465457
+
+    " Outline tags
+    hi outlTags        guifg=#A6E22E               gui=bold
+
+    " Body text
+    hi BT1             guifg=#808080
+    hi BT2             guifg=#808080
+    hi BT3             guifg=#808080
+    hi BT4             guifg=#808080
+    hi BT5             guifg=#808080
+    hi BT6             guifg=#808080
+    hi BT7             guifg=#808080
+    hi BT8             guifg=#808080
+    hi BT9             guifg=#808080
+
+    " Pre-formatted text
+    hi PT1             guifg=#AE81FF
+    hi PT2             guifg=#AE81FF
+    hi PT3             guifg=#AE81FF
+    hi PT4             guifg=#AE81FF
+    hi PT5             guifg=#AE81FF
+    hi PT6             guifg=#AE81FF
+    hi PT7             guifg=#AE81FF
+    hi PT8             guifg=#AE81FF
+    hi PT9             guifg=#AE81FF
+
+    " Tables
+    hi TA1             guifg=#465457
+    hi TA2             guifg=#465457
+    hi TA3             guifg=#465457
+    hi TA4             guifg=#465457
+    hi TA5             guifg=#465457
+    hi TA6             guifg=#465457
+    hi TA7             guifg=#465457
+    hi TA8             guifg=#465457
+    hi TA9             guifg=#465457
+
+    " 'user text'
+    hi UT1             guifg=#808080
+    hi UT2             guifg=#808080
+    hi UT3             guifg=#808080
+    hi UT4             guifg=#808080
+    hi UT5             guifg=#808080
+    hi UT6             guifg=#808080
+    hi UT7             guifg=#808080
+    hi UT8             guifg=#808080
+    hi UT9             guifg=#808080
+
+    " non-wrapping 'user text'
+    hi UB1             guifg=#BCBCBC
+    hi UB2             guifg=#BCBCBC
+    hi UB3             guifg=#BCBCBC
+    hi UB4             guifg=#BCBCBC
+    hi UB5             guifg=#BCBCBC
+    hi UB6             guifg=#BCBCBC
+    hi UB7             guifg=#BCBCBC
+    hi UB8             guifg=#BCBCBC
+    hi UB9             guifg=#BCBCBC
+
     " brown variant
     if s:vimbrant_original == 1
         hi Normal          guifg=#F8F8F2 guibg=#272822
@@ -200,7 +269,7 @@ elseif &t_Co > 255
     hi mailQuoted4     ctermfg=3
     hi mailQuoted5     ctermfg=1
     hi mailQuoted6     ctermfg=5
-    
+
     hi MatchParen      ctermfg=16  ctermbg=208   cterm=bold
     hi ModeMsg         ctermfg=229
     hi MoreMsg         ctermfg=229
@@ -266,6 +335,75 @@ elseif &t_Co > 255
         hi Normal          ctermfg=248 ctermbg=NONE
         hi LineNr          ctermfg=240 ctermbg=NONE
     end
+
+    " Outlines
+    hi OL1             ctermfg=118
+    hi OL2             ctermfg=197
+    hi OL3             ctermfg=208
+    hi OL4             ctermfg=81
+    hi OL5             ctermfg=135
+    hi OL6             ctermfg=186
+    hi OL7             ctermfg=225
+    hi OL8             ctermfg=161
+    hi OL9             ctermfg=67
+
+    " Outline tags
+    hi outlTags        ctermfg=118               cterm=bold
+
+    " Body text
+    hi BT1             ctermfg=244
+    hi BT2             ctermfg=244
+    hi BT3             ctermfg=244
+    hi BT4             ctermfg=244
+    hi BT5             ctermfg=244
+    hi BT6             ctermfg=244
+    hi BT7             ctermfg=244
+    hi BT8             ctermfg=244
+    hi BT9             ctermfg=244
+
+    " Pre-formatted text
+    hi PT1             ctermfg=135
+    hi PT2             ctermfg=135
+    hi PT3             ctermfg=135
+    hi PT4             ctermfg=135
+    hi PT5             ctermfg=135
+    hi PT6             ctermfg=135
+    hi PT7             ctermfg=135
+    hi PT8             ctermfg=135
+    hi PT9             ctermfg=135
+
+    " Tables
+    hi TA1             ctermfg=67
+    hi TA2             ctermfg=67
+    hi TA3             ctermfg=67
+    hi TA4             ctermfg=67
+    hi TA5             ctermfg=67
+    hi TA6             ctermfg=67
+    hi TA7             ctermfg=67
+    hi TA8             ctermfg=67
+    hi TA9             ctermfg=67
+
+    " 'user text'
+    hi UT1             ctermfg=244
+    hi UT2             ctermfg=244
+    hi UT3             ctermfg=244
+    hi UT4             ctermfg=244
+    hi UT5             ctermfg=244
+    hi UT6             ctermfg=244
+    hi UT7             ctermfg=244
+    hi UT8             ctermfg=244
+    hi UT9             ctermfg=244
+
+    " non-wrapping 'user text'
+    hi UB1             ctermfg=240
+    hi UB2             ctermfg=240
+    hi UB3             ctermfg=240
+    hi UB4             ctermfg=240
+    hi UB5             ctermfg=240
+    hi UB6             ctermfg=240
+    hi UB7             ctermfg=240
+    hi UB8             ctermfg=240
+    hi UB9             ctermfg=240
 
 elseif &t_Co < 256
 
@@ -375,5 +513,18 @@ elseif &t_Co < 256
     hi LineNr          ctermfg=7   ctermbg=8
     hi NonText         ctermfg=7
 
+    " Outlines
+    hi OL1             ctermfg=1                cterm=bold
+    hi OL2             ctermfg=4                cterm=bold
+    hi OL3             ctermfg=6                cterm=bold
+    hi OL4             ctermfg=7                cterm=bold
+    hi OL5             ctermfg=1
+    hi OL6             ctermfg=4
+    hi OL7             ctermfg=6
+    hi OL8             ctermfg=7
+    hi OL9             ctermfg=3
+
+    " Outline tags
+    hi outlTags        ctermfg=1                cterm=bold
+
 endif
- 
