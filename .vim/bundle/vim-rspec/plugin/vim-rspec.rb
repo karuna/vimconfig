@@ -1,63 +1,32 @@
-# -*- encoding : utf-8 -*-
 require "rubygems"
 require "hpricot"
-require 'cgi'
-require "#{File.join(File.dirname(__FILE__), "lib/string_util")}"
-require "#{File.join(File.dirname(__FILE__), "lib/failure_renderer")}"
-require "#{File.join(File.dirname(__FILE__), "lib/context_renderer")}"
 
-class RSpecOutputHandler
+doc		= Hpricot(STDIN.read)
+h1			= (doc/"h1")
+classes	= {"spec passed"=>"+","spec failed"=>"-","spec not_implemented"=>"#"}
 
-  def initialize(doc)
-    @doc=doc
-    @counts={
-      :passed => 0,
-      :failed => 0,
-      :not_implemented => 0
-    }
-    render_header
-    render_examples
-  end
+puts "* #{h1.inner_html}"
 
-  private
-
-  def render_header
-    stats = (@doc/"script").select {|script| script.innerHTML =~ /duration|totals/ }
-    stats.map! do |script|
-      script.inner_html.scan(/".*"/).first.gsub(/<\/?strong>/,"").gsub(/\"/,'')
-    end
-    # results in ["Finished in 0.00482 seconds", "2 examples, 1 failure"]
-    failure_success_messages,other_stats = stats.partition {|stat| stat =~ /failure/}
-    render_red_green_header(failure_success_messages.first)
-    other_stats.each do |stat|
-      puts stat
-    end
-    puts " "
-  end
-
-  def render_red_green_header(failure_success_messages)
-    total_count = failure_success_messages.match(/(\d+) example/)[1].to_i rescue 0
-    fail_count = failure_success_messages.match(/(\d+) failure/)[1].to_i rescue 0
-    pending_count = failure_success_messages.match(/(\d+) pending/)[1].to_i rescue 0
-
-    if fail_count > 0
-      puts "------------------------------"
-      puts " FAIL: #{fail_count} PASS: #{total_count - (fail_count + pending_count)} PENDING: #{pending_count}"
-      puts "------------------------------"
-    else
-      puts "++++++++++++++++++++++++++++++"
-      puts "+ PASS: All #{total_count} Specs Pass!"
-      puts "++++++++++++++++++++++++++++++"
-    end
-
-  end
-
-  def render_examples
-    (@doc/"div[@class~='example_group']").each do |context|
-      RSpecContextRenderer.new(context, @counts)
-    end
-  end
-
+stats = (doc/"script").select {|script| script.innerHTML =~ /duration|totals/ }.map {|script| script.inner_html.scan(/".*"/).first.gsub(/<\/?strong>/,"") }
+stats.each do |stat|
+	puts "* #{stat.gsub(/\"/,'')}"
 end
+puts "* Parsed with Hpricot (http://wiki.github.com/why/hpricot)"
+puts " "
 
-renderer = RSpecOutputHandler.new(Hpricot(STDIN.read))
+(doc/"div[@class='example_group']").each do |example|
+	puts "[#{(example/"dl/dt").inner_html}]"
+	(example/"dd").each do |dd|
+		txt = (dd/"span:first").inner_html
+		puts "#{classes[dd[:class]]} #{txt}"
+		next if dd[:class]!="spec failed"
+		failure  = (dd/"div[@class='failure']")
+		msg		= (failure/"div[@class='message']/pre").inner_html
+		back		= (failure/"div[@class='backtrace']/pre").inner_html
+		ruby		= (failure/"pre[@class='ruby']/code").inner_html.scan(/(<span class="linenum">)(\d+)(<\/span>)([^<]+)/).map {|elem| "  "+elem[1]+": "+elem[3].chomp+"\n"}.join
+		puts "  #{msg}"
+		puts "  #{back}"
+		puts ruby
+	end
+	puts " "
+end
