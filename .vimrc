@@ -22,6 +22,22 @@ set cinoptions=:0,p0,t0
 set cinwords=if,else,while,do,for,switch,case
 set gfn=Cousine\ 9
 set gfw=Cousine\ 9
+set viewoptions=folds,options,cursor,unix,slash
+set virtualedit=onemore
+set cursorline "highlight current line
+if has('statusline')
+  set laststatus=2
+	" Broken down into easily includeable segments
+  set statusline=%<%f\    " Filename
+  set statusline+=%w%h%m%r " Options
+  "set statusline+=%{fugitive#statusline()} "  Git Hotness
+  set statusline+=\ [%{&ff}/%Y]            " filetype
+  set statusline+=\ [%{getcwd()}]          " current dir
+  set statusline+=\ [A=\%03.3b/H=\%02.2B] " ASCII / Hexadecimal value of char
+  set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
+endif
+set scrolloff=3 " minimum lines when scrolling
+"set spell
 "set binary " don't add newline on the end of file
 " Visual
 set showmatch " Show matching bracket
@@ -60,16 +76,16 @@ set noswapfile
 
 " Default colors
 if &t_Co >= 256 || has("gui_running")
-  syntax enable 
+  syntax enable
   set background=dark
-  colorscheme vimbrant "solarized mustang railscasts zenburn 
+  colorscheme molokai " vimbrant Tomorrow-Night-Bright solarized mustang railscasts zenburn
 endif
 
 if &t_Co > 2 || has("gui_running")
   " switch syntax highlighting on, when the terminal has colors
   syntax enable
   set background=dark
-  colorscheme vimbrant "railscasts zenburn
+  colorscheme molokai " vimbrant Tomorrow-Night-Bright mustang railscasts zenburn
   " syntax on
 endif
 
@@ -77,11 +93,15 @@ endif
 let mapleader = ","
 nnoremap <leader>f :Ack
 nnoremap <leader>s :%s/\s\+$//<cr>:let @/=''<CR>
-nnoremap <leader>i gg=G
-noremap <f5> :bprev<CR> 
-noremap <f8> :bnext<CR> 
+nnoremap <leader>i gg=GG
+nnoremap <leader>p o<ESC>p
+noremap <f5> :bprev<CR>
+noremap <f8> :bnext<CR>
 set laststatus=2
 :let g:buftabs_in_statusline=1
 
 "autocmd VimEnter * RainbowParenthesesToggle
-
+set undodir="/home/karuna/.vim/undodir"
+set undofile
+set undolevels=10000 "maximum number of changes that can be undone
+set undoreload=100000 "maximum number lines to save for undo on a buffer reload
