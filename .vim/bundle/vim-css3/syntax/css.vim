@@ -3,7 +3,7 @@
 " Original Author: lepture <sopheryoung@gmail.com> , 
 " Claudio Fleiner <claudio@fleiner.com>
 " Modify By: fremff <claffar@hotmail.com>
-" Last Change:	Sep 23, 2012
+" Last Change:	Oct 30, 2012
 
 " For version 5.x: Clear all syntax items
 " For version 6.x: Quit when a syntax file was already loaded
@@ -32,6 +32,13 @@ syn keyword cssTagName textarea tfoot th thead title tr tt ul u var
 syn match cssTagName "\<table\>"
 syn match cssTagName "\*"
 
+" HTML 5 tags
+syn keyword cssTagName article aside audio bb canvas command datagrid
+syn keyword cssTagName datalist details dialog figure footer
+syn keyword cssTagName header hgroup keygen mark meter nav output
+syn keyword cssTagName progress time ruby rt rp section time video
+syn keyword cssTagName source figcaption bdi wbr summary track embed data 
+
 syn match cssTagName "@page\>" nextgroup=cssPseudoClassId,cssPseudoClassNot,cssPseudoClassLang,cssPseudoElement,cssDefinition
 
 syn match cssSelectorOp "[+>.]"
@@ -45,12 +52,13 @@ syn match cssIdentifier "#[A-Za-z_@][A-Za-z0-9_@-]*"
 endtry
 
 
+"   Conditional Group Rule:
 syn match cssMedia "@media\>" nextgroup=cssMediaType,cssMediaNot,cssMediaBraces skipwhite skipnl
-syn match cssMediaType contained "\(screen\|print\|aural\|braile\|embosed\|handheld\|projection\|ty\|tv\|all\)\()\)\@!" nextgroup=cssMediaComma,cssMediaBlock,cssMediaAnd skipwhite skipnl
-syn match cssMediaComma "," nextgroup=cssMediaType skipwhite skipnl
-syn region cssMediaBlock transparent matchgroup=cssBraces start='{' end='}' contains=cssTagName,cssError,cssComment,cssDefinition,cssURL,cssUnicodeEscape,cssIdentifier,cssAttributeSelector,cssPseudoClassId,cssPseudoClassNot,cssPseudoClassLang,cssPseudoElement,cssSelectorOp,cssClassName
+syn keyword cssMediaType contained screen print  aural  braile  embosed handheld projection ty tv all nextgroup=cssMediaComma,cssMediaBlock,cssMediaAnd skipwhite skipnl
+syn match cssMediaComma contained "," nextgroup=cssMediaType skipwhite skipnl
+syn region cssMediaBlock transparent matchgroup=cssBraces start='{' end='}' contains=cssDocument,cssTagName,cssError,cssComment,cssDefinition,cssURL,cssUnicodeEscape,cssIdentifier,cssAttributeSelector,cssPseudoClassId,cssPseudoClassNot,cssPseudoClassLang,cssPseudoElement,cssSelectorOp,cssClassName
 syn match cssMediaAnd "\<and\>" contained nextgroup=cssMediaBraces skipwhite skipnl
-syn match cssMediaNot "\<not\>\(\s[a-z]\+)\)\@!" contained nextgroup=cssMediaType,cssMediaBraces skipwhite skipnl
+syn match cssMediaNot "\<not\>" contained nextgroup=cssMediaType,cssMediaBraces skipwhite skipnl
 syn region cssMediaBraces contained start='(' end=')' contains=cssMediaNot,cssMediaAnd,cssMediaType nextgroup=cssMediaComma,cssMediaAnd,cssMediaBlock skipwhite skipnl
 
 syn match cssValueInteger contained "[-+]\=\d\+"
@@ -83,6 +91,12 @@ syn match cssColor contained "#[0-9A-Fa-f]\{6\}\>"
 "syn match cssColor contained "\<rgb\s*(\s*\d\+\(\.\d*\)\=%\=\s*,\s*\d\+\(\.\d*\)\=%\=\s*,\s*\d\+\(\.\d*\)\=%\=\s*)"
 "syn region cssURL contained matchgroup=cssFunctionName start="\<url\s*(" end=")" oneline keepend
 syn region cssFunction contained matchgroup=cssFunctionName start="\<\(clip\|attr\|counter\|rect\)\s*(" end=")" oneline keepend
+"syn region cssColor contained start="\<\(rgb\|rgba\|hsl\|hsla\)\s*("ms=e+1 end=")"me=s-1 oneline
+syn region cssColor contained matchgroup=cssFunctionName start="\<\(rgb\|rgba\|hsl\|hsla\)\s*(" end=")" oneline keepend
+"syn region cssFunction contained matchgroup=cssFunctionName start="\<\(linear\|radial\)-gradient\s*(" end=")" oneline keepend
+"syn region cssFunction contained matchgroup=cssFunctionName start="\<-moz-image-rect\s*(" end=")" oneline keepend
+"syn region cssFunction contained matchgroup=cssFunctionName start="\<\(matrix\(3d\)\=\|scale\(3d\|X\|Y|\Z\)\=\|translate\(3d\|X\|Y|\Z\)\=\|skew\(X\|Y\)\=\|rotate\(3d\|X\|Y|\Z\)\=\)\s*(" end=")" oneline keepend
+"syn region cssFunction contained matchgroup=cssFunctionName start="\<cubic-bezier\s*(" end=")" oneline keepend
 
 syn match cssImportant contained "!\s*important\>"
 
@@ -120,7 +134,7 @@ syn match cssBoxProp contained "\<\(margin\|padding\|border\)\(-\(top\|right\|bo
 syn match cssBoxProp contained "\<border-\(\(\(top\|right\|bottom\|left\)-\)\=\(width\|color\|style\)\)\=\>\(\s*:\)\@="
 syn match cssBoxProp contained "\<\(width\|z-index\)\>\(\s*:\)\@="
 syn match cssBoxProp contained "\<\(min\|max\)-\(width\|height\)\>\(\s*:\)\@="
-syn keyword cssBoxProp contained width height float clear overflow clip visibility
+syn match cssBoxProp contained "\<\(width\|height\|float\|clear\|overflow\|clip\|visibility\)\>\(\s*:\)\@="
 syn keyword cssBoxAttr contained thin thick both
 syn keyword cssBoxAttr contained dotted dashed solid double groove ridge inset outset
 syn keyword cssBoxAttr contained hidden visible scroll collapse
@@ -177,39 +191,11 @@ syn keyword cssAuralAttr contained male female child code digits continuous
 syn match cssTableProp contained "\<\(caption-side\|table-layout\|border-collapse\|border-spacing\|empty-cells\|speak-header\)\>\(\s*:\)\@="
 syn keyword cssTableAttr contained fixed collapse separate show hide once always
 
-" FIXME: This allows cssMediaBlock before the semicolon, which is wrong.
-syn region cssInclude start="@import" end=";" contains=cssComment,cssURL,cssUnicodeEscape,cssMediaType,cssStringQ,cssStringQQ
-syn match cssBraces contained "[{}]"
-syn match cssError contained "{@<>"
-"syn region cssDefinition transparent matchgroup=cssBraces start='{' end='}' contains=css.*Attr,css.*Prop,cssComment,cssValue.*,cssColor,cssURL,cssImportant,cssError,cssStringQ,cssStringQQ,cssFunction,cssUnicodeEscape
-syn match cssBraceError "}"
-
-syn match cssPseudoClass ":\(\S\({\|,\)\@!\)*" contains=cssPseudoClassId,cssPseudoElement,cssUnicodeEscape,cssClassName,cssSelectorOp2,cssSelectorOp,cssStringQQ,cssTagName,cssBracketsValue
-syn keyword cssPseudoClassId contained link visited active hover focus
-syn keyword cssPseudoElement contained before after
-syn match cssPseudoClassId contained "\<first\(-\(line\|letter\|child\)\)\=\>"
-syn region cssPseudoClassLang matchgroup=cssPseudoClassId start=":lang(" end=")" oneline
-
-syn region cssComment start="/\*" end="\*/" contains=@Spell
-
-syn match cssUnicodeEscape "\\\x\{1,6}\s\?"
-syn match cssSpecialCharQQ +\\"+ contained
-syn match cssSpecialCharQ +\\'+ contained
-syn region cssStringQQ start=+"+ skip=+\\\\\|\\"+ end=+"+ contains=cssUnicodeEscape,cssSpecialCharQQ
-syn region cssStringQ start=+'+ skip=+\\\\\|\\'+ end=+'+ contains=cssUnicodeEscape,cssSpecialCharQ
-syn match cssClassName "\.[A-Za-z][A-Za-z0-9_-]\+"
-
-
-
-" HTML 5 tags
-syn keyword cssTagName article aside audio bb canvas command datagrid
-syn keyword cssTagName datalist details dialog figure footer
-syn keyword cssTagName header hgroup keygen mark meter nav output
-syn keyword cssTagName progress time ruby rt rp section time video
-
 " HTML 5 Attribute
 syn keyword cssCommonAttr contained contenteditable contextmenu draggable item
 syn keyword cssCommonAttr contained itemprop list subject spellcheck dropzone 
+
+" CSS3
 " User-interface
 syn match cssUIProp contained "\<nav-\(index\|up\|right\|down\|left\)\>\(\s*:\)\@="
 syn keyword cssUIProp contained resize
@@ -229,10 +215,6 @@ syn match cssBoxProp contained "\(-\(webkit\|o\)-\|\)\(-moz-\)\@<!border-image\>
 syn match cssBoxProp contained "\<border-radius\>\(\s*:\)\@="
 syn match cssBoxProp contained "\<border-\(bottom\|top\)-\(left\|right\)-radius\>\(\s*:\)\@="
 
-
-
-syn keyword cssTagName source figcaption bdi wbr summary track embed data 
-
 syn match cssTextProp contained "\<text-\(justify\|\outline\|overflow\|warp\|indent\)\>\(\s*:\)\@="
 syn match cssRenderProp contained "\(-\(webkit\)-\|\)\(-\(moz\|o\)-\)\@<!transform\(-\(origin\|style\)\)\=\>\(\s*:\)\@="
 syn match cssTextProp contained "\<word-\(break\|\wrap\)\>\(\s*:\)\@="
@@ -246,7 +228,7 @@ syn keyword cssBoxAttr contained content-box padding-box border-box manual
 syn keyword cssBoxAttr contained balance round space horizontal vertical
 syn keyword cssBoxAttr contained inline-axis block-axis
 syn keyword cssBoxAttr contained start end stretch reverse ignore stretch-to-fit
-syn keyword cssTextAttr contained hanging each-line
+syn keyword cssTextAttr contained hanging each-line ellipsis clip
 syn keyword cssGeneratedContentAttr contained bounding-box each-box
 syn match cssTableAttr contained "\<\(flex\|grid\|inline-\(block\|table\|flex\|grid\)\|list-item\|run-in\)\>"
 
@@ -257,13 +239,6 @@ syn match cssRenderProp contained "\(-\(webkit\)-\|\)\(-\(moz\|o\)-\)\@<!animati
 syn match cssUIProp contained "\(-\(moz\|webkit\)-\|\)appearance\>\(\s*:\)\@="
 syn match cssBoxProp contained "\(-\(moz\|webkit\)-\|\)box-\(align\|direction\|flex\|ordinal-group\|orient\|pack\|sizing\)\>\(\s*:\)\@="
 syn match cssBoxProp contained "\<box-shadow\>\(\s*:\)\@="
-
-syn match cssPseudoClassId contained "\<\(last\|only\)-child\>"
-syn match cssPseudoClassId contained "\<\(first\|last\|only\)-of-type\>"
-syn match cssPseudoClassId contained "\<\(nth\|nth-last\)-\(of-type\|child\)\>" nextgroup=cssBracketsValue
-syn keyword cssPseudoClassId contained root empty target enabled disabled checked
-syn match cssPseudoClassId contained "\(-\(moz\|webkit\)-\|\)any\>"
-syn region cssPseudoClassNot matchgroup=cssPseudoClassId start=":not(" end=")" oneline contains=cssAttributeSelector,cssSelectorOp2,cssStringQQ
 
 syn match cssBoxProp contained "\<-moz-border-\(\(top\|right\|bottom\|left\)-colors\)\>\(\s*:\)\@="
 syn match cssBoxProp contained "\<border-image-\(source\|width\|repeat\|outset\|slice\)\>\(\s*:\)\@="
@@ -289,24 +264,59 @@ syn match cssBoxProp contained "\<-moz-stack-sizing\>\(\s*:\)\@="
 
 syn match cssBracketsValue contained "(\@<=\d\+\()\)\@="
 
-syn match cssDocument "@\(-moz-\)\=document\>" nextgroup=cssURL,cssURLPrefix,cssDomain,cssRegexp skipwhite skipnl
-syn region cssURLPrefix contained matchgroup=cssFunctionName start="\<url-prefix\s*(" end=")" nextgroup=cssDocumentComma,cssDefinition oneline keepend
-syn region cssDomain contained matchgroup=cssFunctionName start="\<domain\s*(" end=")" nextgroup=cssDocumentComma,cssDefinition oneline keepend
-syn region cssRegexp contained matchgroup=cssFunctionName start="\<regexp\s*(" end=")" contains=cssRegexpError nextgroup=cssDocumentComma,cssDefinition oneline keepend
+" FIXME: This allows cssMediaBlock before the semicolon, which is wrong.
+syn region cssInclude start="@import" end=";" contains=cssComment,cssURL,cssUnicodeEscape,cssMediaType,cssStringQ,cssStringQQ
+syn match cssBraces contained "[{}]"
+syn match cssError contained "{@<>"
+syn region cssDefinition transparent matchgroup=cssBraces start='{' end='}' contains=css.*Attr,css.*Prop,cssComment,cssValue.*,cssColor,cssURL,cssImportant,cssError,cssStringQ,cssStringQQ,cssFunction,cssUnicodeEscape
+syn match cssBraceError "}"
+
+" At-rule Groups
+"   Conditional Group Rule:
+syn match cssDocument "@\(-moz-\)\=document\>" nextgroup=cssURL,cssURLPrefix,cssDomain,cssRegexp skipwhite skipnl 
+syn region cssURLPrefix contained matchgroup=cssFunctionName start="\<url-prefix\s*(" end=")" nextgroup=cssDocumentComma,cssDocumentBlock oneline keepend skipwhite
+syn region cssDomain contained matchgroup=cssFunctionName start="\<domain\s*(" end=")" nextgroup=cssDocumentComma,cssDocumentBlock oneline keepend skipwhite
+syn region cssRegexp contained matchgroup=cssFunctionName start="\<regexp\s*(" end=")" contains=cssRegexpError nextgroup=cssDocumentComma,cssDocumentBlock oneline keepend skipwhite
 syn match cssDocumentComma  contained "," nextgroup=cssURL,cssURLPrefix,cssDomain,cssRegexp skipwhite skipnl
-syn region cssDefinition transparent matchgroup=cssBraces start='{' end='}' contains=cssBraces,css.*Attr,css.*Prop,cssComment,cssValue.*,cssColor,cssURL,cssImportant,cssError,cssStringQ,cssStringQQ,cssFunction,cssUnicodeEscape,cssTagName,cssClassName,cssIdentifier,cssMedia,cssDocument,cssInclude,cssFontDescriptor
-syn region cssURL contained matchgroup=cssFunctionName start="\<url\s*(" end=")" nextgroup=cssDocumentComma,cssDefinition oneline keepend
-syn match cssRegexpError contained +(\@<=\w.*\()\)\@=\|(\@<=['"]\w[^'"]*\()\)\@=\|\\.+
+syn region cssURL contained matchgroup=cssFunctionName start="\<url\s*(" end=")" nextgroup=cssDocumentComma,cssDocumentBlock oneline keepend skipwhite
+syn region cssDocumentBlock contained transparent matchgroup=cssBraces start='{' end='}' contains=cssDefinition,cssPseudoClassId,cssPseudoClassLang,cssPseudoClassNot,cssPseudoElement,cssComment,cssError,cssAttributeSelector,cssSelectorOp,cssFunction,cssUnicodeEscape,cssTagName,cssClassName,cssIdentifier,cssMedia,cssFontDescriptor
+syn match cssRegexpError contained +(\@<=[^'"].*\()\)\@=\|(\@<=['][^']*\()\)\@=\|(\@<=["][^"]*\()\)\@=\|\\\@<!\\[^\\]+
 
 syn region cssNameSpace start="@namespace" end=";" contains=cssStringQ*,cssURL,cssNameSpaceName
-syn match cssNameSpaceName contained "\s\<[a-zA-Z]*\>\s"
+syn match cssNameSpaceName contained "\s\<[a-zA-Z]\+\>\s"
 
-"syn region cssColor contained start="\<\(rgb\|rgba\|hsl\|hsla\)\s*("ms=e+1 end=")"me=s-1 oneline
-syn region cssColor contained matchgroup=cssFunctionName start="\<\(rgb\|rgba\|hsl\|hsla\)\s*(" end=")" oneline keepend
-"syn region cssFunction contained matchgroup=cssFunctionName start="\<\(linear\|radial\)-gradient\s*(" end=")" oneline keepend
-"syn region cssFunction contained matchgroup=cssFunctionName start="\<-moz-image-rect\s*(" end=")" oneline keepend
-"syn region cssFunction contained matchgroup=cssFunctionName start="\<\(matrix\(3d\)\=\|scale\(3d\|X\|Y|\Z\)\=\|translate\(3d\|X\|Y|\Z\)\=\|skew\(X\|Y\)\=\|rotate\(3d\|X\|Y|\Z\)\=\)\s*(" end=")" oneline keepend
-"syn region cssFunction contained matchgroup=cssFunctionName start="\<cubic-bezier\s*(" end=")" oneline keepend
+syn region cssCharset start="@charset" end=";" contains=cssCharsetString
+syn match cssCharsetString contained +"[a-zA-Z][a-zA-Z0-9\-]*"+
+
+" At-rule Group of Testing
+syn match cssKeyFrame "@\(-webkit-\)\=\(-\(moz\|o\)-\)\@<!keyframes\>" nextgroup=cssKeyFrameID skipwhite skipnl
+syn match cssKeyFrameID contained  "\<[a-zA-Z]\+\>" nextgroup=cssKeyFrameBlock skipwhite skipnl
+syn region cssKeyFrameBlock contained matchgroup=cssBraces start="{" end="}" contains=cssKeyFrameTime,cssDefinition
+syn match cssKeyFrameTime contained "\<\(from\|to\|\d\+%\)\>" nextgroup=cssDefinition skipwhite skipnl
+
+
+syn match cssPseudoClass ":\(\S\({\|,\)\@!\)*" contains=cssPseudoClassId,cssPseudoElement,cssUnicodeEscape,cssClassName,cssSelectorOp2,cssSelectorOp,cssStringQQ,cssTagName,cssBracketsValue
+syn keyword cssPseudoClassId contained link visited active hover focus
+syn keyword cssPseudoElement contained before after
+syn match cssPseudoClassId contained "\<first\(-\(line\|letter\|child\)\)\=\>"
+syn region cssPseudoClassLang matchgroup=cssPseudoClassId start=":lang(" end=")" oneline
+
+" PseudoClass expansion list
+syn match cssPseudoClassId contained "\<\(last\|only\)-child\>"
+syn match cssPseudoClassId contained "\<\(first\|last\|only\)-of-type\>"
+syn match cssPseudoClassId contained "\<\(nth\|nth-last\)-\(of-type\|child\)\>" nextgroup=cssBracketsValue
+syn keyword cssPseudoClassId contained root empty target enabled disabled checked left right
+syn match cssPseudoClassId contained "\(-\(moz\|webkit\)-\|\)any\>"
+syn region cssPseudoClassNot matchgroup=cssPseudoClassId start=":not(" end=")" oneline contains=cssAttributeSelector,cssSelectorOp2,cssStringQQ
+
+syn region cssComment start="/\*" end="\*/" contains=@Spell
+
+syn match cssUnicodeEscape "\\\x\{1,6}\s\?"
+syn match cssSpecialCharQQ +\\"+ contained
+syn match cssSpecialCharQ +\\'+ contained
+syn region cssStringQQ start=+"+ skip=+\\\\\|\\"+ end=+"+ contains=cssUnicodeEscape,cssSpecialCharQQ
+syn region cssStringQ start=+'+ skip=+\\\\\|\\'+ end=+'+ contains=cssUnicodeEscape,cssSpecialCharQ
+syn match cssClassName "\.[A-Za-z][A-Za-z0-9_-]\+"
 
 
 if main_syntax == "css"
@@ -389,6 +399,7 @@ if version >= 508 || !exists("did_css_syn_inits")
   HiLink cssDomain String
   HiLink cssRegexp String
   HiLink cssRegexpError Error
+  HiLink cssCharsetString String
 
   delcommand HiLink
 endif

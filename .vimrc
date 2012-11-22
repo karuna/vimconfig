@@ -5,6 +5,7 @@ set encoding=utf-8 " Unicode baby
 set number " Show line number
 "set showbreak=>> " Characters shown on soft wrap
 set mouse=a
+set ttymouse=xterm2 " somehow I'm not able to resize window if not using this 
 set t_Co=256
 call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
@@ -75,18 +76,15 @@ set nobackup
 set noswapfile
 
 " Default colors
+if &t_Co > 2 
+  syntax enable
+  set background=dark
+  colorscheme vimbrant " molokai Tomorrow-Night-Bright solarized mustang railscasts zenburn
+endif
 if &t_Co >= 256 || has("gui_running")
   syntax enable
   set background=dark
-  colorscheme molokai " vimbrant Tomorrow-Night-Bright solarized mustang railscasts zenburn
-endif
-
-if &t_Co > 2 || has("gui_running")
-  " switch syntax highlighting on, when the terminal has colors
-  syntax enable
-  set background=dark
-  colorscheme molokai " vimbrant Tomorrow-Night-Bright mustang railscasts zenburn
-  " syntax on
+  colorscheme vimbrant " molokai Tomorrow-Night-Bright solarized mustang railscasts zenburn
 endif
 
 " Leader
