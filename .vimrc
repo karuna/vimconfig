@@ -7,8 +7,9 @@ set number " Show line number
 set mouse=a
 set ttymouse=xterm2 " somehow I'm not able to resize window if not using this 
 set t_Co=256
-call pathogen#runtime_append_all_bundles()
-call pathogen#helptags()
+execute pathogen#infect()
+"call pathogen#incubate()
+"call pathogen#helptags()
 
 " Formatting
 set cindent
