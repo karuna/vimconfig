@@ -52,3 +52,6 @@
 [submodule ".vim/bundle/vim-ruby"]
 	path = .vim/bundle/vim-ruby
 	url = git@github.com:vim-ruby/vim-ruby.git
+[submodule ".vim/bundle/vim-rabl"]
+	path = .vim/bundle/vim-rabl
+	url = git@github.com:yaymukund/vim-rabl.git
