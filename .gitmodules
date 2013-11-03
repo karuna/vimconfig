@@ -40,3 +40,6 @@
 [submodule ".vim/bundle/vim-rspec"]
 	path = .vim/bundle/vim-rspec
 	url = git@github.com:skwp/vim-rspec.git
+[submodule ".vim/bundle/handlebar-moustache"]
+	path = .vim/bundle/handlebar-moustache
+	url = git@github.com:mustache/vim-mode.git
