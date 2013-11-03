@@ -80,12 +80,12 @@ set noswapfile
 if &t_Co > 2 
   syntax enable
   set background=dark
-  colorscheme vimbrant " molokai Tomorrow-Night-Bright solarized mustang railscasts zenburn
+  colorscheme molokai " vimbrant Tomorrow-Night-Bright solarized mustang railscasts zenburn
 endif
 if &t_Co >= 256 || has("gui_running")
   syntax enable
   set background=dark
-  colorscheme vimbrant " molokai Tomorrow-Night-Bright solarized mustang railscasts zenburn
+  colorscheme molokai " vimbrant Tomorrow-Night-Bright solarized mustang railscasts zenburn
 endif
 
 " Leader
